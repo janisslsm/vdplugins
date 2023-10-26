@@ -15,7 +15,6 @@ export default {
             if(buttons === undefined) return;
         
             delete buttons[1];
-            delete buttons[2];
         
             return [component]
         }));
@@ -28,7 +27,6 @@ export default {
             if(buttons === undefined) return;
         
             delete buttons[1];
-            delete buttons[2];
         
             return [component]
         }));

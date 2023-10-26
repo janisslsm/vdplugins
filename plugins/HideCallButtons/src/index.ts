@@ -12,9 +12,8 @@ export default {
             const { props } = component;
             const { children } = props
             if(children === undefined) return;
-            const buttons = findInReactTree(component, (x) => x?.props.children[1].props.icon == getAssetIDByName("ic_video"))?.props.children
+            const buttons = children?.props?.children[1]?.props?.children;
             if(buttons === undefined) return;
-            delete buttons[0];
             delete buttons[1];
 
             return [component]

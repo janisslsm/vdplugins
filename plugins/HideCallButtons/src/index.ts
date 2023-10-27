@@ -12,6 +12,7 @@ export default {
         storage.hideDMTitlebar ??= false;
 
         const UserProfileActions = findByName("UserProfileActions", false);
+        const ChannelActions = findByName("ChannelActions", false);
         const videoCallAsset = getAssetIDByName("ic_video");
         const Header = findByName("Header", false);
 
@@ -26,23 +27,44 @@ export default {
             return [component]
         }));
 
+        patches.push(after("default", ChannelActions, (_, component) => {
+            if(!storage.hideDMTitlebar) return [component];
+            const privateChannelButtons = component?.props?.children?.type;
+            if(privateChannelButtons?.type?.name !== "PrivateChannelButtons") return;
+
+            const p1 = after("type", privateChannelButtons, (_, comp) => {
+                const buttons = comp?.props?.children;
+                if(buttons === undefined) return;
+
+                delete buttons[0];
+                delete buttons[1];
+                p1();
+            });
+
+            return [component]
+        }));
+
         patches.push(after("default", Header, (_, component) => {
             if(!storage.hideDMTitlebar) return;
             
             const _default = findInReactTree(component, (x) => x?.type?.name == "_default")
             if(_default === undefined) return;
             
-            after("type", _default, (_, channelnavbuttons) => {
+            const p1 = after("type", _default, (_, channelnavbuttons) => {
                 if(channelnavbuttons?.type === undefined) return;
 
-                after("type", channelnavbuttons, (_, nonnullchannelnavbuttons) => {
+                const p2 = after("type", channelnavbuttons, (_, nonnullchannelnavbuttons) => {
                     if(nonnullchannelnavbuttons?.type === undefined) return;
 
-                    after("type", nonnullchannelnavbuttons, (_, comp) => {
+                    const p3 = after("type", nonnullchannelnavbuttons, (_, comp) => {
                         delete comp?.props?.buttons[0];
                         delete comp?.props?.buttons[1];
-                        return [comp];
+
+                        p3();
+                        p2();
                     })
+
+                    p1();
                 })
             })
 

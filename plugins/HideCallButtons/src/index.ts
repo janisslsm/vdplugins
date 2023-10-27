@@ -17,7 +17,7 @@ export default {
         const Header = findByName("Header", false);
 
         patches.push(after("default", UserProfileActions, (_, component) => {
-            if(!storage.hideUserProfile) return [component];
+            if(!storage.hideUserProfile) return;
             const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.props?.icon == videoCallAsset)?.props?.children;
             if(buttons === undefined) return;
 
@@ -28,7 +28,7 @@ export default {
         }));
 
         patches.push(after("default", ChannelActions, (_, component) => {
-            if(!storage.hideDMTitlebar) return [component];
+            if(!storage.hideDMTitlebar) return;
             const privateChannelButtons = component?.props?.children?.type;
             if(privateChannelButtons?.type?.name !== "PrivateChannelButtons") return;
 
@@ -41,13 +41,13 @@ export default {
                 p1();
             });
 
-            return [component]
+            return [component];
         }));
 
         patches.push(after("default", Header, (_, component) => {
             if(!storage.hideDMTitlebar) return;
             
-            const _default = findInReactTree(component, (x) => x?.type?.name == "_default")
+            const _default = findInReactTree(component, (x) => x?.type?.name == "_default");
             if(_default === undefined) return;
             
             const p1 = after("type", _default, (_, channelnavbuttons) => {
@@ -61,14 +61,15 @@ export default {
                         delete comp?.props?.buttons[1];
 
                         p3();
-                        p2();
-                    })
+                    });
 
-                    p1();
-                })
-            })
+                    p2();
+                });
 
-            return [component]
+                p1();
+            });
+
+            return [component];
         }));
     },
     onUnload: () => {

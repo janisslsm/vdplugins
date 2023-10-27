@@ -14,7 +14,7 @@ export default () => {
       <FormSwitchRow
         label="Hide from user profile"
         subLabel="Hide call buttons from user profile"
-        leading={<FormIcon source={getAssetIDByName("ic_profile")} />}
+        leading={<FormIcon source={getAssetIDByName("ic_profile_24px")} />}
         onValueChange={(v) => {
           storage.hideUserProfile = v;
         }}

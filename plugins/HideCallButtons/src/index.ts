@@ -7,13 +7,16 @@ let patches = []
 export default {
     onLoad: () => {
         const UserProfileActions = findByName("UserProfileActions", false);
-
+        const videoCallAsset = getAssetIDByName("ic_video");
+        
         patches.push(after("default", UserProfileActions, (_, component) => {
             const { props } = component;
             const { children } = props
             if(children === undefined) return;
-            const buttons = children?.props?.children[1]?.props?.children;
+            const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.props?.icon == videoCallAsset)?.props?.children;
             if(buttons === undefined) return;
+
+            delete buttons[0];
             delete buttons[1];
 
             return [component]

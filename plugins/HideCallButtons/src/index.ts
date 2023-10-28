@@ -14,6 +14,8 @@ export default {
         storage.hideVCVideoButton ??= false;
 
         const videoCallAsset = getAssetIDByName("ic_video");
+        const videoAsset = getAssetIDByName("video");
+        const callAsset = getAssetIDByName("nav_header_connect");
 
         const UserProfileActions = findByName("UserProfileActions", false);
         const ChannelActions = findByName("ChannelActions", false);
@@ -37,7 +39,8 @@ export default {
             if(children === undefined) return;
 
             var _default = component?.props?.children?.props?.children[1];
-            
+            if(_default?.type?.name !== "_default") return;
+
             const p1 = after("type", _default, (_, comp) => {
                 var buttons = comp?.props?.children?.props?.children?.props?.children;
                 if(buttons !== undefined)
@@ -80,8 +83,11 @@ export default {
                         const buttons = comp?.props?.buttons;
                         if(buttons !== undefined)
                         {
-                            delete buttons[0];
-                            delete buttons[1];
+                            if(buttons[0].source === callAsset || buttons[0].source === videoAsset)
+                            {
+                                delete buttons[0];
+                                delete buttons[1];
+                            }
                         }
                         p3();
                     });

@@ -28,6 +28,14 @@ export default () => {
         onValueChange={(v) => (storage.hideDMTitlebar = v)}
         value={storage.hideDMTitlebar}
       />
+      <FormDivider />
+      <FormSwitchRow
+        label="Hide from VC"
+        subLabel="Hide video button from VC"
+        leading={<FormIcon source={getAssetIDByName("video")} />}
+        onValueChange={(v) => (storage.hideVCVideoButton = v)}
+        value={storage.hideVCVideoButton}
+      />
     </ReactNative.ScrollView>
   );
 };

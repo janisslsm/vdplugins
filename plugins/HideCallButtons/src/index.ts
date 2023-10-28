@@ -57,9 +57,12 @@ export default {
                     if(nonnullchannelnavbuttons?.type === undefined) return;
 
                     const p3 = after("type", nonnullchannelnavbuttons, (_, comp) => {
-                        delete comp?.props?.buttons[0];
-                        delete comp?.props?.buttons[1];
-
+                        const buttons = comp?.props?.buttons;
+                        if(buttons !== undefined)
+                        {
+                            delete buttons[0];
+                            delete buttons[1];
+                        }
                         p3();
                     });
 

@@ -14,6 +14,7 @@ export default {
         storage.hideVCVideoButton ??= false;
 
         const videoCallAsset = getAssetIDByName("ic_video");
+        const voiceCallAsset = getAssetIDByName("ic_audio");
         const videoAsset = getAssetIDByName("video");
         const callAsset = getAssetIDByName("nav_header_connect");
 
@@ -24,11 +25,15 @@ export default {
 
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.hideUserProfile) return;
-            const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.props?.icon == videoCallAsset)?.props?.children;
+            const buttons = findInReactTree(component, (x) => x?.props?.children[0]?.type?.name == "_default")?.props?.children;
             if(buttons === undefined) return;
 
-            delete buttons[0];
-            delete buttons[1];
+            for(var idx in buttons)
+            {
+                var button = buttons[idx];
+                if(button?.props?.icon === voiceCallAsset || button?.props?.icon === videoCallAsset)
+                    delete buttons[idx];
+            }
 
             return [component]
         }));

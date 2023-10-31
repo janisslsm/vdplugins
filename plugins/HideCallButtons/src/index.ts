@@ -25,7 +25,7 @@ export default {
 
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.hideUserProfile) return;
-            const buttons = findInReactTree(component, (x) => x?.props?.children[0]?.type?.name == "_default")?.props?.children;
+            const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.type?.name == "_default")?.props?.children;
             if(buttons === undefined) return;
 
             for(var idx in buttons)

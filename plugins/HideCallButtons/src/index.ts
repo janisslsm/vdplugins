@@ -23,8 +23,8 @@ export default {
         const UserProfileActions = findByName("UserProfileActions", false);
         const PrivateChannelButtons = find(x => x?.type?.name == "PrivateChannelButtons");
         const ChannelButtons = findByProps("ChannelButtons");
-        const FocusedControlsBottomControls = findByName("FocusedControlsBottomControls", false);
-
+        const VideoButton = findByProps("VideoButton");
+        
         // User Profile
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
@@ -44,22 +44,13 @@ export default {
         }));
         
         // VC
-        patches.push(after("default", FocusedControlsBottomControls, (_, component) => {
+        patches.push(after("default", VideoButton, (_, component) => {
             if(!storage.hideVCVideoButton) return;
 
-            const children = component?.props?.children?.props?.children;
-            if(children === undefined) return;
+            const buttons = component?.props?.children?.props?.children?.props?.children;
+            if(buttons === undefined) return;
 
-            var _default = component?.props?.children?.props?.children[1];
-            if(_default?.type?.name !== "_default") return;
-
-            const p1 = after("type", _default, (_, comp) => {
-                var buttons = comp?.props?.children?.props?.children?.props?.children;
-                if(buttons !== undefined)
-                    delete buttons[0];
-                
-                p1();
-            });
+            delete buttons[0];
         }));
 
         // Tabs V2 DM Header

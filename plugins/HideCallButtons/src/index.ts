@@ -1,4 +1,4 @@
-import { findByName, findByProps } from "@vendetta/metro"
+import { find, findByName, findByProps } from "@vendetta/metro"
 import { after } from "@vendetta/patcher"
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { findInReactTree } from "@vendetta/utils";
@@ -21,13 +21,14 @@ export default {
         const callAsset = getAssetIDByName("nav_header_connect");
 
         const UserProfileActions = findByName("UserProfileActions", false);
-        const ChannelActions = findByName("ChannelActions", false);
+        const PrivateChannelButtons = find(x => x?.type?.name == "PrivateChannelButtons");
         const ChannelButtons = findByProps("ChannelButtons");
         const FocusedControlsBottomControls = findByName("FocusedControlsBottomControls", false);
 
         // User Profile
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
+            
             const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.type?.name == "_default")?.props?.children;
             if(buttons === undefined) return;
 
@@ -45,6 +46,7 @@ export default {
         // VC
         patches.push(after("default", FocusedControlsBottomControls, (_, component) => {
             if(!storage.hideVCVideoButton) return;
+
             const children = component?.props?.children?.props?.children;
             if(children === undefined) return;
 
@@ -61,27 +63,19 @@ export default {
         }));
 
         // Tabs V2 DM Header
-        patches.push(after("default", ChannelActions, (_, component) => {
+        patches.push(after("type", PrivateChannelButtons, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
-            
-            const privateChannelButtons = component?.props?.children?.type;
-            if(privateChannelButtons?.type?.name !== "PrivateChannelButtons") return;
 
-            const p1 = after("type", privateChannelButtons, (_, comp) => {
-                const buttons = comp?.props?.children;
-                if(buttons === undefined) return;
+            const buttons = component?.props?.children;
+            if(buttons === undefined) return;
 
-                for(var idx in buttons)
-                {
-                    var button = buttons[idx];
-                    if((button?.props?.source === callAsset && storage.dmHideCallButton) || 
-                        (button?.props?.source === videoAsset && storage.dmHideVideoButton))
-                        delete buttons[idx];
-                }
-                p1();
-            });
-
-            return [component];
+            for(var idx in buttons)
+            {
+                var button = buttons[idx];
+                if((button?.props?.source === callAsset && storage.dmHideCallButton) || 
+                    (button?.props?.source === videoAsset && storage.dmHideVideoButton))
+                    delete buttons[idx];
+            }
         }));
         
         // Legacy UI DM Header

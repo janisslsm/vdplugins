@@ -24,7 +24,8 @@ export default {
         const ChannelActions = findByName("ChannelActions", false);
         const Header = findByName("Header", false);
         const FocusedControlsBottomControls = findByName("FocusedControlsBottomControls", false);
-
+        
+        // User Profile
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
             const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.type?.name == "_default")?.props?.children;
@@ -40,7 +41,8 @@ export default {
 
             return [component]
         }));
-
+        
+        // VC
         patches.push(after("default", FocusedControlsBottomControls, (_, component) => {
             if(!storage.hideVCVideoButton) return;
             const children = component?.props?.children?.props?.children;
@@ -58,6 +60,7 @@ export default {
             });
         }));
 
+        // Tabs V2 DM Title bar
         patches.push(after("default", ChannelActions, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
             
@@ -81,6 +84,7 @@ export default {
             return [component];
         }));
 
+        // Legacy UI DM Title Bar
         patches.push(after("default", Header, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
             

@@ -4,38 +4,59 @@ import { getAssetIDByName } from "@vendetta/ui/assets";
 import { storage } from "@vendetta/plugin";
 import { useProxy } from "@vendetta/storage";
 
-const { FormDivider, FormIcon, FormSwitchRow } = Forms;
+const { FormSection, FormDivider, FormIcon, FormSwitchRow } = Forms;
 
 export default () => {
   useProxy(storage);
 
   return (
     <ReactNative.ScrollView>
+      <FormSection title="User Profile" titleStyleType="no_border">
+        <FormSwitchRow
+          label="Hide call button"
+          leading={<FormIcon source={getAssetIDByName("ic_audio")} />}
+          onValueChange={(v) => {
+            storage.upHideVoiceButton = v;
+          }}
+          value={storage.upHideVoiceButton}
+        />
+        <FormDivider />
+        <FormSwitchRow
+          label="Hide video button"
+          leading={<FormIcon source={getAssetIDByName("ic_video")} />}
+          onValueChange={(v) => {
+            storage.upHideVideoButton = v;
+          }}
+          value={storage.upHideVideoButton}
+        />
+      </FormSection>
+      <FormSection title="DMs" titleStyleType="no_border">
       <FormSwitchRow
-        label="Hide from user profile"
-        subLabel="Hide call buttons from user profile"
-        leading={<FormIcon source={getAssetIDByName("ic_profile_24px")} />}
-        onValueChange={(v) => {
-          storage.hideUserProfile = v;
-        }}
-        value={storage.hideUserProfile}
-      />
-      <FormDivider />
-      <FormSwitchRow
-        label="Hide from DM"
-        subLabel="Hide call buttons from DM title bar"
-        leading={<FormIcon source={getAssetIDByName("ic_dm")} />}
-        onValueChange={(v) => (storage.hideDMTitlebar = v)}
-        value={storage.hideDMTitlebar}
-      />
-      <FormDivider />
-      <FormSwitchRow
-        label="Hide from VC"
-        subLabel="Hide video button from VC"
-        leading={<FormIcon source={getAssetIDByName("video")} />}
-        onValueChange={(v) => (storage.hideVCVideoButton = v)}
-        value={storage.hideVCVideoButton}
-      />
+          label="Hide call button"
+          leading={<FormIcon source={getAssetIDByName("ic_audio")} />}
+          onValueChange={(v) => {
+            storage.dmHideCallButton = v;
+          }}
+          value={storage.dmHideCallButton}
+        />
+        <FormDivider />
+        <FormSwitchRow
+          label="Hide video button"
+          leading={<FormIcon source={getAssetIDByName("ic_video")} />}
+          onValueChange={(v) => {
+            storage.dmHideVideoButton = v;
+          }}
+          value={storage.dmHideVideoButton}
+        />
+      </FormSection>
+      <FormSection title="Other" titleStyleType="no_border">
+        <FormSwitchRow
+          label="Hide video button in VC"
+          leading={<FormIcon source={getAssetIDByName("video")} />}
+          onValueChange={(v) => (storage.hideVCVideoButton = v)}
+          value={storage.hideVCVideoButton}
+        />
+      </FormSection>
     </ReactNative.ScrollView>
   );
 };

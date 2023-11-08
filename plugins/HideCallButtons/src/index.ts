@@ -9,8 +9,10 @@ let patches = []
 
 export default {
     onLoad: () => {
-        storage.hideUserProfile ??= true;
-        storage.hideDMTitlebar ??= false;
+        storage.upHideVoiceButton ??= true;
+        storage.upHideVideoButton ??= true;
+        storage.dmHideCallButton ??= false;
+        storage.dmHideVideoButton ??= false;
         storage.hideVCVideoButton ??= false;
 
         const videoCallAsset = getAssetIDByName("ic_video");
@@ -24,14 +26,15 @@ export default {
         const FocusedControlsBottomControls = findByName("FocusedControlsBottomControls", false);
 
         patches.push(after("default", UserProfileActions, (_, component) => {
-            if(!storage.hideUserProfile) return;
+            if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
             const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.type?.name == "_default")?.props?.children;
             if(buttons === undefined) return;
 
             for(var idx in buttons)
             {
                 var button = buttons[idx];
-                if(button?.props?.icon === voiceCallAsset || button?.props?.icon === videoCallAsset)
+                if((button?.props?.icon === voiceCallAsset && storage.upHideVoiceButton) || 
+                    (button?.props?.icon === videoCallAsset && storage.upHideVideoButton))
                     delete buttons[idx];
             }
 
@@ -56,7 +59,8 @@ export default {
         }));
 
         patches.push(after("default", ChannelActions, (_, component) => {
-            if(!storage.hideDMTitlebar) return;
+            if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
+            
             const privateChannelButtons = component?.props?.children?.type;
             if(privateChannelButtons?.type?.name !== "PrivateChannelButtons") return;
 
@@ -64,8 +68,13 @@ export default {
                 const buttons = comp?.props?.children;
                 if(buttons === undefined) return;
 
-                delete buttons[0];
-                delete buttons[1];
+                for(var idx in buttons)
+                {
+                    var button = buttons[idx];
+                    if((button?.props?.source === callAsset && storage.dmHideCallButton) || 
+                        (button?.props?.source === videoAsset && storage.dmHideVideoButton))
+                        delete buttons[idx];
+                }
                 p1();
             });
 
@@ -73,7 +82,7 @@ export default {
         }));
 
         patches.push(after("default", Header, (_, component) => {
-            if(!storage.hideDMTitlebar) return;
+            if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
             
             const _default = findInReactTree(component, (x) => x?.type?.name == "_default");
             if(_default === undefined) return;
@@ -88,10 +97,12 @@ export default {
                         const buttons = comp?.props?.buttons;
                         if(buttons !== undefined)
                         {
-                            if(buttons[0].source === callAsset || buttons[0].source === videoAsset)
+                            for(var idx in buttons)
                             {
-                                delete buttons[0];
-                                delete buttons[1];
+                                var button = buttons[idx];
+                                if((button?.source === callAsset && storage.dmHideCallButton) || 
+                                    (button?.source === videoAsset && storage.dmHideVideoButton))
+                                    delete buttons[idx];
                             }
                         }
                         p3();

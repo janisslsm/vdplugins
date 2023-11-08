@@ -1,4 +1,4 @@
-import { findByName } from "@vendetta/metro"
+import { findByName, findByProps } from "@vendetta/metro"
 import { after } from "@vendetta/patcher"
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { findInReactTree } from "@vendetta/utils";
@@ -22,9 +22,9 @@ export default {
 
         const UserProfileActions = findByName("UserProfileActions", false);
         const ChannelActions = findByName("ChannelActions", false);
-        const Header = findByName("Header", false);
+        const ChannelButtons = findByProps("ChannelButtons");
         const FocusedControlsBottomControls = findByName("FocusedControlsBottomControls", false);
-        
+
         // User Profile
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
@@ -60,7 +60,7 @@ export default {
             });
         }));
 
-        // Tabs V2 DM Title bar
+        // Tabs V2 DM Header
         patches.push(after("default", ChannelActions, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
             
@@ -83,42 +83,23 @@ export default {
 
             return [component];
         }));
-
-        // Legacy UI DM Title Bar
-        patches.push(after("default", Header, (_, component) => {
+        
+        // Legacy UI DM Header
+        patches.push(after("ChannelButtons", ChannelButtons, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
+
+            const buttons = component?.props?.children;
+            if(buttons === undefined) return;
             
-            const _default = findInReactTree(component, (x) => x?.type?.name == "_default");
-            if(_default === undefined) return;
-            
-            const p1 = after("type", _default, (_, channelnavbuttons) => {
-                if(channelnavbuttons?.type === undefined) return;
+            for(var idx in buttons)
+            {
+                var button = buttons[idx]?.props?.children[0];
+                if(button === undefined) continue;
 
-                const p2 = after("type", channelnavbuttons, (_, nonnullchannelnavbuttons) => {
-                    if(nonnullchannelnavbuttons?.type === undefined) return;
-
-                    const p3 = after("type", nonnullchannelnavbuttons, (_, comp) => {
-                        const buttons = comp?.props?.buttons;
-                        if(buttons !== undefined)
-                        {
-                            for(var idx in buttons)
-                            {
-                                var button = buttons[idx];
-                                if((button?.source === callAsset && storage.dmHideCallButton) || 
-                                    (button?.source === videoAsset && storage.dmHideVideoButton))
-                                    delete buttons[idx];
-                            }
-                        }
-                        p3();
-                    });
-
-                    p2();
-                });
-
-                p1();
-            });
-
-            return [component];
+                if((button?.props?.source === callAsset && storage.dmHideCallButton) || 
+                    (button?.props?.source === videoAsset && storage.dmHideVideoButton))
+                    delete buttons[idx];
+            }
         }));
     },
     onUnload: () => {

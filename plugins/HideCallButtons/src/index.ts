@@ -28,19 +28,30 @@ export default {
         // User Profile
         patches.push(after("default", UserProfileActions, (_, component) => {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
-            
-            const buttons = findInReactTree(component, (x) => x?.props?.children[1]?.type?.name == "_default")?.props?.children;
+
+            let buttons = component?.props?.children?.props?.children[1]?.props?.children;
+            if(buttons?.props?.children !== undefined)
+                buttons = buttons?.props?.children;
             if(buttons === undefined) return;
 
             for(var idx in buttons)
             {
                 var button = buttons[idx];
+                if(button?.props?.children !== undefined)
+                {
+                    var buttonContainer = button?.props?.children;
+                    for(var idx2 in buttonContainer)
+                    {
+                        var btn = buttonContainer[idx2];
+                        if((btn?.props?.icon === voiceCallAsset && storage.upHideVoiceButton) || 
+                        (btn?.props?.icon === videoCallAsset && storage.upHideVideoButton))
+                            delete buttonContainer[idx2];
+                    }
+                }
                 if((button?.props?.icon === voiceCallAsset && storage.upHideVoiceButton) || 
                     (button?.props?.icon === videoCallAsset && storage.upHideVideoButton))
                     delete buttons[idx];
             }
-
-            return [component]
         }));
         
         // VC

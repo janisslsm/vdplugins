@@ -19,6 +19,8 @@ export default {
         const voiceCallAsset = getAssetIDByName("ic_audio");
         const videoAsset = getAssetIDByName("video");
         const callAsset = getAssetIDByName("nav_header_connect");
+        const videoAsset2 = getAssetIDByName("VideoIcon");
+        const callAsset2 = getAssetIDByName("PhoneCallIcon");
 
         const UserProfileActions = findByName("UserProfileActions", false);
         const PrivateChannelButtons = find(x => x?.type?.name == "PrivateChannelButtons");
@@ -75,7 +77,9 @@ export default {
             {
                 var button = buttons[idx];
                 if((button?.props?.source === callAsset && storage.dmHideCallButton) || 
-                    (button?.props?.source === videoAsset && storage.dmHideVideoButton))
+                    (button?.props?.source === videoAsset && storage.dmHideVideoButton) ||
+                    (button?.props?.source === callAsset2 && storage.dmHideCallButton) || 
+                    (button?.props?.source === videoAsset2 && storage.dmHideVideoButton))
                     delete buttons[idx];
             }
         }));

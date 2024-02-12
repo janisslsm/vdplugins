@@ -1,0 +1,18 @@
+{
+    "name": "Splasher",
+    "description": "Lets you use imgur pictures as profile banners! Ported from enmity",
+    "authors": [
+        {
+            "name": "John",
+            "id": "780819226839220265"
+        },
+        {
+            "name": "Niko",
+            "id": "341377368075796483"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_call_ended"
+    }
+}

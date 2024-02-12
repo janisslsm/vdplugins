@@ -3,11 +3,13 @@ import { Icons } from "../../common";
 import { storage } from '@vendetta/plugin';
 import { General } from "@vendetta/ui/components";
 import { semanticColors } from "@vendetta/ui";
-import { findByName, findByProps } from "@vendetta/metro";
+import { findByName, find, findByProps } from "@vendetta/metro";
 
 const { View, Text, TouchableOpacity } = General;
 const { useThemeContext } = findByProps("useThemeContext");
-const { meta: { resolveSemanticColor } } = findByProps("colors", "meta");
+const resolveSemanticColor: (theme: Theme, semanticColor: object) => string
+    = find(m => m.default?.internal?.resolveSemanticColor)?.default.internal.resolveSemanticColor
+        ?? find(m => m.meta?.resolveSemanticColor)?.meta.resolveSemanticColor ?? (() => {});
 const UserProfileSection = findByName("UserProfileSection");
 const { UserProfileGradientCard } = findByProps("UserProfileGradientCard");
 const HapticModule = findByProps("triggerHaptic");

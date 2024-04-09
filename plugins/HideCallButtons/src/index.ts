@@ -70,9 +70,14 @@ export default {
         patches.push(after("type", PrivateChannelButtons, (_, component) => {
             if(!storage.dmHideCallButton && !storage.dmHideVideoButton) return;
 
-            const buttons = component?.props?.children;
+            let buttons = component?.props?.children;
             if(buttons === undefined) return;
 
+            if(buttons[0]?.props?.source === undefined)
+                buttons = buttons[0]?.props?.children;
+
+            if(buttons === undefined) return;
+            
             for(var idx in buttons)
             {
                 var button = buttons[idx];

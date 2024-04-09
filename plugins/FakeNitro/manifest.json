@@ -1,0 +1,14 @@
+{
+    "name": "Fake Nitro",
+    "description": "W.I.P",
+    "authors": [
+        {
+            "name": "John",
+            "id": "780819226839220265"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_badge_nitro"
+    }
+}

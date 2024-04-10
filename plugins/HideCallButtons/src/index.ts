@@ -15,12 +15,17 @@ export default {
         storage.dmHideVideoButton ??= false;
         storage.hideVCVideoButton ??= false;
 
-        const videoCallAsset = getAssetIDByName("ic_video");
-        const voiceCallAsset = getAssetIDByName("ic_audio");
+        let videoCallAsset = getAssetIDByName("ic_video");
+        let voiceCallAsset = getAssetIDByName("ic_audio");
         const videoAsset = getAssetIDByName("video");
         const callAsset = getAssetIDByName("nav_header_connect");
         const videoAsset2 = getAssetIDByName("VideoIcon");
         const callAsset2 = getAssetIDByName("PhoneCallIcon");
+
+        if(videoCallAsset === undefined)
+            videoCallAsset = videoAsset2;
+        if(voiceCallAsset === undefined)
+            voiceCallAsset = callAsset2;
 
         const UserProfileActions = findByName("UserProfileActions", false);
         const PrivateChannelButtons = find(x => x?.type?.name == "PrivateChannelButtons");
@@ -32,6 +37,8 @@ export default {
             if(!storage.upHideVideoButton && !storage.upHideVoiceButton) return;
 
             let buttons = component?.props?.children?.props?.children[1]?.props?.children;
+            if(buttons === undefined)
+                buttons = component?.props?.children[1]?.props?.children;
             if(buttons?.props?.children !== undefined)
                 buttons = buttons?.props?.children;
             if(buttons === undefined) return;
@@ -49,6 +56,13 @@ export default {
                         (btn?.props?.icon === videoCallAsset && storage.upHideVideoButton))
                             delete buttonContainer[idx2];
                     }
+                }
+                if(button?.props?.IconComponent !== undefined)
+                {
+                    if(storage.upHideVoiceButton)
+                        delete buttons[1];
+                    if(storage.upHideVideoButton)
+                        delete buttons[2];
                 }
                 if((button?.props?.icon === voiceCallAsset && storage.upHideVoiceButton) || 
                     (button?.props?.icon === videoCallAsset && storage.upHideVideoButton))

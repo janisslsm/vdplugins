@@ -28,6 +28,7 @@ export default {
             voiceCallAsset = callAsset2;
 
         const UserProfileActions = findByName("UserProfileActions", false);
+        const SimplifiedUserProfileContactButtons = findByName("SimplifiedUserProfileContactButtons", false);
         const PrivateChannelButtons = find(x => x?.type?.name == "PrivateChannelButtons");
         const ChannelButtons = findByProps("ChannelButtons");
         const VideoButton = findByProps("VideoButton");
@@ -68,6 +69,18 @@ export default {
                     (button?.props?.icon === videoCallAsset && storage.upHideVideoButton))
                     delete buttons[idx];
             }
+        }));
+
+        // Simplified user profile
+        patches.push(after("default", SimplifiedUserProfileContactButtons, (_, component) => {
+            let buttons = component?.props?.children;
+            if(buttons === undefined) return;
+
+            if(storage.upHideVoiceButton)
+                delete buttons[1]
+
+            if(storage.upHideVideoButton)
+                delete buttons[2]
         }));
         
         // VC

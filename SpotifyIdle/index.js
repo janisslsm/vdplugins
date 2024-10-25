@@ -1,0 +1,1 @@
+(function(t,e,u){"use strict";let o=[];var i={onLoad:function(){const n=e.findByProps("shouldShowActivity");o.push(u.instead("shouldShowActivity",n,function(){return!0}))},onUnload:function(){for(const n of o)n()}};return t.default=i,Object.defineProperty(t,"__esModule",{value:!0}),t})({},vendetta.metro,vendetta.patcher);

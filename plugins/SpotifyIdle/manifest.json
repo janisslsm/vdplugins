@@ -1,0 +1,14 @@
+{
+    "name": "SpotifyIdle",
+    "description": "Allows spotify activity to be displayed even while idle.",
+    "authors": [
+        {
+            "name": "John",
+            "id": "780819226839220265"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "img_account_sync_spotify_light_and_dark"
+    }
+}

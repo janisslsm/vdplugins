@@ -8,7 +8,7 @@ let ContextMenuPopout = findByProps("ContextMenuPopout");
 export default () =>
 	before("ContextMenuPopout", ContextMenuPopout, (args) => {
 		const userId = args[0]?.menu?.key;
-		if (userId !== undefined) {
+		if (userId !== undefined && args[0]?.menu?.items?.length === 3) {
 			args[0].menu.items.push({
 				label: "Reviews",
 				action: () => {

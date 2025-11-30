@@ -104,6 +104,15 @@ export default {
             let buttons = component?.props?.children;
             if(buttons === undefined) return;
 
+            if(buttons[0]?.props?.accessibilityLabel !== undefined)
+            {
+     					if (storage.dmHideCallButton)
+								delete buttons[0];
+							if (storage.dmHideVideoButton)
+								delete buttons[1];
+
+							return;
+            }
             if(buttons[0]?.props?.source === undefined)
                 buttons = buttons[0]?.props?.children;
 

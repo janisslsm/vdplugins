@@ -15,7 +15,9 @@ export default () => after("type", UserProfile, (args, ret) => {
         r?.props?.children.findIndex(i => i?.type?.name === "UserProfileBio" || i?.type?.name === "UserProfileAboutMeCard") !== -1
     )?.props?.children;
 
-    const userId = args[0]?.userId;
+    let userId = args[0]?.userId;
+    if (userId === undefined)
+        userId = args[0]?.user?.id;
 
     profileSections?.push(React.createElement(ReviewSection, { userId }));
 });

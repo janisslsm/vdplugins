@@ -9,10 +9,10 @@ if(UserProfile === undefined)
     UserProfile = findByTypeName("UserProfileContent");
 
 export default () => after("type", UserProfile, (args, ret) => {
-    const profileSections = findInReactTree(ret, r => 
+    const profileSections = findInReactTree(ret, r =>
         r?.type?.displayName === "View" &&
         // UserProfileBio still exists even when the user has no bio. Yep.
-        r?.props?.children.findIndex(i => i?.type?.name === "UserProfileBio") !== -1
+        r?.props?.children.findIndex(i => i?.type?.name === "UserProfileBio" || i?.type?.name === "UserProfileAboutMeCard") !== -1
     )?.props?.children;
 
     const userId = args[0]?.userId;

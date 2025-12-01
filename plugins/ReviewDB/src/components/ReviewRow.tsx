@@ -1,4 +1,5 @@
 import { ReactNative as RN, stylesheet } from "@vendetta/metro/common";
+import { ViewProps } from "react-native";
 import { Forms } from "@vendetta/ui/components";
 import { Review } from "../def";
 import { useThemedColor } from "../lib/utils";
@@ -9,6 +10,7 @@ import { semanticColors } from "@vendetta/ui";
 
 interface ReviewRowProps {
 	review: Review;
+	style: ViewProps["style"];
 }
 
 const styles = stylesheet.createThemedStyleSheet({
@@ -27,10 +29,10 @@ const { TableRowGroup } = findByProps("TableRow");
 // This component behaves VERY similarly to this custom one, but subLabel doesn't get themed so... here we are!
 // const UserProfileRow = findByName("UserProfileRow");
 
-export default ({ review }: ReviewRowProps) => (
-	<TableRowGroup style={[styles.card]}>
+export default ({ review, style }: ReviewRowProps) => (
+	<TableRowGroup style={[style]}>
 		<FormRow
-			style={[styles.card]}
+			style={[style]}
 			label={
 				<ReviewUsername
 					username={review.sender.username}

@@ -14,20 +14,10 @@ interface ReviewSectionProps {
 	userId: string;
 }
 
-const styles = stylesheet.createThemedStyleSheet({
-	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-	},
-	card: {
-		backgroundColor: semanticColors.CARD_PRIMARY_BG,
-		borderRadius: 16,
-		padding: 8,
-	},
-});
 const { TableRow, TableRowGroup } = findByProps("TableRow");
 const { FlashList } = findByProps("FlashList");
+
+const { getDisplayProfile } = findByProps("getDisplayProfile");
 
 export default function ReviewSection({ userId }: ReviewSectionProps) {
 	const [reviews, setReviews] = React.useState<Review[]>([]);
@@ -41,6 +31,30 @@ export default function ReviewSection({ userId }: ReviewSectionProps) {
 		reviews.filter((i) => i.sender.discordID === getCurrentUser()?.id)
 			.length !== 0;
 
+	const themeColors = getDisplayProfile?.(userId)?.themeColors;
+	console.log(themeColors);
+	const styles = stylesheet.createThemedStyleSheet({
+		avatar: {
+			height: 36,
+			width: 36,
+			borderRadius: 18,
+		},
+		card: {
+			backgroundColor:
+				themeColors === undefined
+					? semanticColors.CARD_PRIMARY_BG
+					: `#00000073`,
+			borderRadius: 16,
+			padding: 8,
+		},
+		reviewCard: {
+			backgroundColor:
+				themeColors === undefined
+					? semanticColors.CARD_SECONDARY_BG
+					: `#00000083`,
+		},
+	});
+
 	return (
 		<ErrorBoundary>
 			<RN.View style={[styles.card]}>
@@ -48,9 +62,12 @@ export default function ReviewSection({ userId }: ReviewSectionProps) {
 					<FlashList
 						ItemSeparatorComponent={() => <RN.View style={{ height: 8 }} />}
 						data={reviews}
-						renderItem={({ item }) => <ReviewRow review={item} />}
+						renderItem={({ item }) => (
+							<ReviewRow style={styles.reviewCard} review={item} />
+						)}
 						keyExtractor={(item) => item.sender.username}
 						scrollEnabled={false}
+						estimatedSize={84}
 					/>
 					<ReviewInput
 						userId={userId}

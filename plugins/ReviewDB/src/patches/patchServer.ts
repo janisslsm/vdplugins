@@ -1,14 +1,12 @@
 import { React } from "@vendetta/metro/common";
-import { findByProps } from "@vendetta/metro";
-import { after } from "@vendetta/patcher";
+import { findByName } from "@vendetta/metro";
+import { after, instead } from "@vendetta/patcher";
 import ReviewCard from "../components/ReviewCard";
 
-let GuildActions = findByProps("GuildActionSheetPrimaryActions");
+let GuildActionSheetProgress = findByName("GuildActionSheetProgress", false);
 
 export default () =>
-	after("GuildActionSheetPrimaryActions", GuildActions, (args, ret) => {
+	instead("default", GuildActionSheetProgress, (args, ret) => {
 		const guildId = args[0]?.guild?.id;
-		ret?.props?.children?.push(
-			React.createElement(ReviewCard, { userId: guildId }),
-		);
+		return React.createElement(ReviewCard, { userId: guildId });
 	});

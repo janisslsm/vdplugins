@@ -3,7 +3,7 @@ import { ErrorBoundary } from "@vendetta/ui/components";
 import ReviewActionSheet from "./ReviewActionSheet";
 import { ActionSheet } from "./ActionSheet";
 import { findByProps } from "@vendetta/metro";
-const { TableRow } = findByProps("TableRow");
+const { TableRow, TableRowGroup } = findByProps("TableRow");
 
 interface ReviewCardProps {
 	userId: string;
@@ -12,12 +12,14 @@ interface ReviewCardProps {
 export default function ReviewCard({ userId }: ReviewCardProps) {
 	return (
 		<ErrorBoundary>
-			<TableRow
-				label="Reviews"
-				onPress={() => {
-					ActionSheet.open(ReviewActionSheet, { userId });
-				}}
-			/>
+			<TableRowGroup>
+				<TableRow
+					label="Reviews"
+					onPress={() => {
+						ActionSheet.open(ReviewActionSheet, { userId });
+					}}
+				/>
+			</TableRowGroup>
 		</ErrorBoundary>
 	);
 }

@@ -7,7 +7,7 @@ import {
 import { findByProps } from "@vendetta/metro";
 import { useProxy } from "@vendetta/storage";
 import { storage } from "@vendetta/plugin";
-import { rawColors } from "@vendetta/ui";
+import { rawColors, semanticColors } from "@vendetta/ui";
 import { showToast } from "@vendetta/ui/toasts";
 import { getAssetIDByName } from "@vendetta/ui/assets";
 import { addReview } from "../lib/api";
@@ -30,6 +30,7 @@ const styles = stylesheet.createThemedStyleSheet({
 		paddingVertical: 4,
 	},
 	container_redesign: {
+		backgroundColor: semanticColors.CARD_PRIMARY_BG,
 		flex: 1,
 		//flexDirection: "row",
 		//alignItems: "center",
@@ -68,7 +69,7 @@ export default function ReviewInput({
 
 	if (TextInput) {
 		return (
-			<RN.View style={styles.container_redesign}>
+			<RN.View>
 				<TextInput
 					style={{ ...styles.textInput, color: useThemedColor("TEXT_NORMAL") }}
 					isDisabled={disableTextArea}

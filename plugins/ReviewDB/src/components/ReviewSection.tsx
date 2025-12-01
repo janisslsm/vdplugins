@@ -22,7 +22,7 @@ const styles = stylesheet.createThemedStyleSheet({
 	},
 	card: {
 		backgroundColor: semanticColors.CARD_PRIMARY_BG,
-		borderRadius: 12,
+		borderRadius: 16,
 		padding: 8,
 	},
 });

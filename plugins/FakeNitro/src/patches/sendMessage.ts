@@ -14,9 +14,10 @@ const patches = [
 
 if (uploadModule?.uploadLocalFiles !== undefined) {
 	patches.push(
-		before("uploadLocalFiles", uploadModule, (args) =>
-			modifyIfNeeded(args[0].parsedMessage),
-		),
+		before("uploadLocalFiles", uploadModule, (args) => {
+			if (getCurrentUser?.().premiumType === null)
+				modifyIfNeeded(args[0].parsedMessage);
+		}),
 	);
 }
 export default [...patches];

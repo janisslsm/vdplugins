@@ -1,7 +1,9 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "node build.mjs"
+		"build": "node build.mjs",
+		"dev:serve": "npx http-server ./dist -p 3000",
+		"dev:watch": "npx nodemon --ignore dist/ -e ts,tsx,json -x \"npm run build\""
 	},
 	"dependencies": {
 		"@swc/helpers": "^0.4.14"

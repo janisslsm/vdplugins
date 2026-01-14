@@ -13,7 +13,6 @@ function extractUnusableEmojis(messageString: string, size: number) {
 	for (const emojiString of emojiStrings) {
 		// Fetch required info about the emoji
 		const emoji = getCustomEmojiById(emojiString[2]);
-		console.log(emoji);
 		// Check emoji usability
 		if (emoji.guildId != getGuildId() || emoji.animated) {
 			// Remove emote from original msg
@@ -21,13 +20,18 @@ function extractUnusableEmojis(messageString: string, size: number) {
 			const url =
 				emoji?.url ??
 				`https://cdn.discordapp.com/emojis/${emoji.id}.webp?size=44&animated=${emoji.animated}`;
+			const animated = emoji.animated
+				? `&animated=${emoji.animated}`
+				: "";
 			// Add to emotes to send
 			if (storage.hyperLink === true)
 				emojiUrls.push(
-					`[${emoji.name}](${url.split("?")[0]}?size=${size}&name=${emoji.name})`,
+					`[${emoji.name}](${url.split("?")[0]}?size=${size}&name=${emoji.name}${animated})`,
 				);
 			else
-				emojiUrls.push(`${url.split("?")[0]}?size=${size}&name=${emoji.name}`);
+				emojiUrls.push(
+					`${url.split("?")[0]}?size=${size}&name=${emoji.name}${animated}`,
+				);
 		}
 	}
 

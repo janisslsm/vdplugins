@@ -20,7 +20,9 @@ export default () => {
 				<TableSwitchRow
 					label="Hide call button"
 					icon={
-						<TableRow.Icon source={getAssetIDByName("ic_audio")} />
+						<TableRow.Icon
+							source={getAssetIDByName("PhoneCallIcon")}
+						/>
 					}
 					onValueChange={(v) => {
 						storage.upHideVoiceButton = v;
@@ -30,7 +32,7 @@ export default () => {
 				<TableSwitchRow
 					label="Hide video button"
 					icon={
-						<TableRow.Icon source={getAssetIDByName("ic_video")} />
+						<TableRow.Icon source={getAssetIDByName("VideoIcon")} />
 					}
 					onValueChange={(v) => {
 						storage.upHideVideoButton = v;
@@ -42,7 +44,9 @@ export default () => {
 				<TableSwitchRow
 					label="Hide call button"
 					icon={
-						<TableRow.Icon source={getAssetIDByName("ic_audio")} />
+						<TableRow.Icon
+							source={getAssetIDByName("PhoneCallIcon")}
+						/>
 					}
 					onValueChange={(v) => {
 						storage.dmHideCallButton = v;
@@ -52,7 +56,7 @@ export default () => {
 				<TableSwitchRow
 					label="Hide video button"
 					icon={
-						<TableRow.Icon source={getAssetIDByName("ic_video")} />
+						<TableRow.Icon source={getAssetIDByName("VideoIcon")} />
 					}
 					onValueChange={(v) => {
 						storage.dmHideVideoButton = v;
@@ -63,7 +67,9 @@ export default () => {
 			<TableRowGroup title="Other" titleStyleType="no_border">
 				<TableSwitchRow
 					label="Hide video button in VC"
-					icon={<TableRow.Icon source={getAssetIDByName("video")} />}
+					icon={
+						<TableRow.Icon source={getAssetIDByName("VideoIcon")} />
+					}
 					onValueChange={(v) => (storage.hideVCVideoButton = v)}
 					value={storage.hideVCVideoButton}
 				/>

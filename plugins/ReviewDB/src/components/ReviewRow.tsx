@@ -10,6 +10,7 @@ import { semanticColors } from "@vendetta/ui";
 
 interface ReviewRowProps {
 	review: Review;
+	owner: string;
 	style: ViewProps["style"];
 }
 
@@ -29,7 +30,7 @@ const { TableRowGroup } = findByProps("TableRow");
 // This component behaves VERY similarly to this custom one, but subLabel doesn't get themed so... here we are!
 // const UserProfileRow = findByName("UserProfileRow");
 
-export default ({ review, style }: ReviewRowProps) => (
+export default ({ review, owner, style }: ReviewRowProps) => (
 	<TableRowGroup style={[style]}>
 		<FormRow
 			style={[style]}
@@ -51,7 +52,7 @@ export default ({ review, style }: ReviewRowProps) => (
 					source={{ uri: review.sender.profilePhoto }}
 				/>
 			}
-			onLongPress={() => showReviewActionSheet(review)}
+			onLongPress={() => showReviewActionSheet(review, owner)}
 		/>
 	</TableRowGroup>
 );

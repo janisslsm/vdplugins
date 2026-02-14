@@ -63,7 +63,7 @@ export default function ReviewSection({ userId }: ReviewSectionProps) {
 						ItemSeparatorComponent={() => <RN.View style={{ height: 8 }} />}
 						data={reviews}
 						renderItem={({ item }) => (
-							<ReviewRow style={styles.reviewCard} review={item} />
+							<ReviewRow style={styles.reviewCard} owner={userId} review={item} />
 						)}
 						keyExtractor={(item) => item.sender.username}
 						scrollEnabled={false}

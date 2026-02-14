@@ -10,7 +10,7 @@ import { canDeleteReview } from "./utils";
 const { hideActionSheet } = findByProps("openLazy", "hideActionSheet");
 const { showSimpleActionSheet } = findByProps("showSimpleActionSheet");
 
-export default (review: Review) => showSimpleActionSheet({
+export default (review: Review, owner: string) => showSimpleActionSheet({
     key: "ReviewOverflow",
     header: {
         title: review.type !== 3 ? `Review by ${review.sender.username}` : "ReviewDB System Message",
@@ -26,7 +26,7 @@ export default (review: Review) => showSimpleActionSheet({
             }
         },
         ...(storage.authToken && review.type !== 3 ? [
-            ...(canDeleteReview(review) ? [{
+            ...(canDeleteReview(review, owner) ? [{
                 label: "Delete Review",
                 isDestructive: true,
                 onPress: () => showConfirmationAlert({

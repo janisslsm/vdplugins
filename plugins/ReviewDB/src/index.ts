@@ -5,6 +5,7 @@ import exposeAPI from "./patches/exposeAPI";
 import patchSimplifiedProfile from "./patches/patchSimplifiedProfile";
 import patchServer from "./patches/patchServer";
 import patchContextMenu from "./patches/patchContextMenu";
+import patchSegmentedProfile from "./patches/patchSegmentedProfile";
 // Default settings
 storage.authToken ??= "";
 storage.useThemedSend ??= true;
@@ -15,6 +16,7 @@ const patches = [
 	patchSimplifiedProfile(),
 	patchServer(),
 	patchContextMenu(),
+	patchSegmentedProfile(),
 ];
 
 export const admins = [];

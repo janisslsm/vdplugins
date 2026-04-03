@@ -9,6 +9,7 @@ import patchSegmentedProfile from "./patches/patchSegmentedProfile";
 // Default settings
 storage.authToken ??= "";
 storage.useThemedSend ??= true;
+storage.showWarning ??= true;
 
 const patches = [
 	exposeAPI(),

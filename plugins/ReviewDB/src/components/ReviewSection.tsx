@@ -6,6 +6,8 @@ import { getReviews } from "../lib/api";
 import ReviewRow from "./ReviewRow";
 import ReviewInput from "./ReviewInput";
 import { semanticColors } from "@vendetta/ui";
+import { storage } from "@vendetta/plugin";
+import { useProxy } from "@vendetta/storage";
 
 const { getCurrentUser } = findByStoreName("UserStore");
 const UserProfileCard = findByName("UserProfileCard");
@@ -20,6 +22,8 @@ const { FlashList } = findByProps("FlashList");
 const { getDisplayProfile } = findByProps("getDisplayProfile");
 
 export default function ReviewSection({ userId }: ReviewSectionProps) {
+	useProxy(storage);
+	
 	const [reviews, setReviews] = React.useState<Review[]>([]);
 
 	const fetchReviews = () => {
@@ -61,7 +65,10 @@ export default function ReviewSection({ userId }: ReviewSectionProps) {
 				<UserProfileCard title="Reviews" styles={[styles.card]}>
 					<FlashList
 						ItemSeparatorComponent={() => <RN.View style={{ height: 8 }} />}
-						data={reviews}
+						data={storage.showWarning
+                            ? reviews
+                            : reviews.filter(review => review.type !== 3)
+                        }
 						renderItem={({ item }) => (
 							<ReviewRow style={styles.reviewCard} owner={userId} review={item} />
 						)}

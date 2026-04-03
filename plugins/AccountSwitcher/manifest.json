@@ -1,0 +1,14 @@
+{
+	"name": "AccountSwitcher",
+	"description": "Enables account switcher as the experiment is gone.",
+	"authors": [
+		{
+			"name": "John",
+			"id": "780819226839220265"
+		}
+	],
+	"main": "src/index.ts",
+	"vendetta": {
+		"icon": "ic_trending_16px"
+	}
+}

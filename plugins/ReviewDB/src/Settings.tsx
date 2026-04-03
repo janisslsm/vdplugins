@@ -59,7 +59,7 @@ export default () => {
                         <TableRow.Icon source={getAssetIDByName("WarningIcon")} />
                     }
                     value={storage.showWarning}
-                    onValueChange={(v: boolean) => (storage.showWarning = v )}
+                    onValueChange={(v: boolean) => (storage.showWarning = v)}
                 />
             </TableRowGroup>
         </Stack>

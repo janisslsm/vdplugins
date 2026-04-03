@@ -1,0 +1,1 @@
+(function(n,e,o){"use strict";const c=e.findByProps("getCanUseMultiAccountMobile"),t=[];t.push(o.after("getCanUseMultiAccountMobile",c,function(){return!0}));const u=function(){return t.forEach(function(r){return r()})};return n.onUnload=u,n})({},vendetta.metro,vendetta.patcher);

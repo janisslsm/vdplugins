@@ -46,11 +46,20 @@ export default () => {
                     subLabel="Controls whether the review send button should attempt to match the user's profile colors."
                     icon={
                         <TableRow.Icon
-                            source={getAssetIDByName("ic_paint_brush")}
+                            source={getAssetIDByName("PaintbrushThinIcon")}
                         />
                     }
                     value={storage.useThemedSend}
                     onValueChange={(v: boolean) => (storage.useThemedSend = v)}
+                />
+                <TableSwitchRow
+                    label="Show Warning"
+                    subLabel="Show the warning to be respectful at the top of the reviews list."
+                    icon={
+                        <TableRow.Icon source={getAssetIDByName("WarningIcon")} />
+                    }
+                    value={storage.showWarning}
+                    onValueChange={(v: boolean) => (storage.showWarning = v)}
                 />
             </TableRowGroup>
         </Stack>

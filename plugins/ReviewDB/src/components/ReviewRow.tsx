@@ -30,29 +30,34 @@ const { TableRowGroup } = findByProps("TableRow");
 // This component behaves VERY similarly to this custom one, but subLabel doesn't get themed so... here we are!
 // const UserProfileRow = findByName("UserProfileRow");
 
-export default ({ review, owner, style }: ReviewRowProps) => (
-	<TableRowGroup style={[style]}>
-		<FormRow
-			style={[style]}
-			label={
-				<ReviewUsername
-					username={review.sender.username}
-					badges={review.sender.badges}
-				/>
-			}
-			subLabel={
-				<FormSubLabel
-					text={review.comment}
-					style={{ color: useThemedColor("TEXT_NORMAL") }}
-				/>
-			}
-			leading={
-				<RN.Image
-					style={styles.avatar}
-					source={{ uri: review.sender.profilePhoto }}
-				/>
-			}
-			onLongPress={() => showReviewActionSheet(review, owner)}
-		/>
-	</TableRowGroup>
-);
+export default ({ review, owner, style }: ReviewRowProps) => {
+	const reviewTimestamp = review.type !== 3 ? new Date(review.timestamp * 1000).toLocaleDateString() : ""
+	
+	return (
+		<TableRowGroup style={[style]}>
+			<FormRow
+				style={[style]}
+				label={
+					<ReviewUsername
+						username={review.sender.username}
+						badges={review.sender.badges}
+						timestamp={reviewTimestamp}
+					/>
+				}
+				subLabel={
+					<FormSubLabel
+						text={review.comment}
+						style={{ color: useThemedColor("TEXT_NORMAL") }}
+					/>
+				}
+				leading={
+					<RN.Image
+						style={styles.avatar}
+						source={{ uri: review.sender.profilePhoto }}
+					/>
+				}
+				onLongPress={() => showReviewActionSheet(review, owner)}
+			/>
+		</TableRowGroup>
+	);
+};

@@ -41,7 +41,7 @@ export default ({ review, owner, style }: ReviewRowProps) => {
 					<ReviewUsername
 						username={review.sender.username}
 						badges={review.sender.badges}
-						timestamp={reviewTimestamps}
+						timestamp={reviewTimestamp}
 					/>
 				}
 				subLabel={
